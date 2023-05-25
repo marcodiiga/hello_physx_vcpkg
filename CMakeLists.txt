@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.15)
 # PLEASE CUSTOMIZE THESE TWO BEFORE IMPORTING PHYSX PACKAGE
 # set(VCPKG_TARGET_TRIPLET x64-windows-static)
 # set(VCPKG_LIBRARY_LINKAGE static)
-set(VCPKG_TARGET_TRIPLET x64-windows-static)
+set(VCPKG_TARGET_TRIPLET x64-linux)
 # set(VCPKG_LIBRARY_LINKAGE dynamic)
 ##############################################################
 
@@ -28,9 +28,9 @@ target_link_libraries(hello_physx omniverse-physx-sdk)
 #     set_property(TARGET hello_physx PROPERTY MSVC_RUNTIME_LIBRARY ${OMNIVERSE-PHYSX-SDK_CRT_LINKAGE})
 # endif()
 
-# if(CMAKE_BUILD_TYPE STREQUAL Release)
-#     target_compile_definitions(hello_physx PRIVATE NDEBUG)
-# endif()
+if(CMAKE_BUILD_TYPE STREQUAL Debug)
+    target_compile_definitions(hello_physx PRIVATE _DEBUG)
+endif()
 
 # target_include_directories(hello_physx PRIVATE "${OMNIVERSE-PHYSX-SDK_INCLUDE_DIRS}")
 # target_link_directories(hello_physx PRIVATE "${OMNIVERSE-PHYSX-SDK_RELEASE_LIBS_DIR}")
