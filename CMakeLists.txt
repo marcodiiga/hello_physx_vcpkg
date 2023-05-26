@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.15)
 # PLEASE CUSTOMIZE THESE TWO BEFORE IMPORTING PHYSX PACKAGE
 # set(VCPKG_TARGET_TRIPLET x64-windows-static)
 # set(VCPKG_LIBRARY_LINKAGE static)
-set(VCPKG_TARGET_TRIPLET x64-windows)
+set(VCPKG_TARGET_TRIPLET x64-linux)
 # set(VCPKG_LIBRARY_LINKAGE dynamic)
 ##############################################################
 
@@ -19,6 +19,12 @@ project(HelloPhysX)
 # endif()
 
 add_executable(hello_physx main.cpp)
+
+# Add rpath setting
+set_target_properties(hello_physx PROPERTIES
+    BUILD_WITH_INSTALL_RPATH TRUE
+    INSTALL_RPATH "$ORIGIN"
+)
 
 find_package(omniverse-physx-sdk CONFIG REQUIRED)
 target_link_libraries(hello_physx omniverse-physx-sdk)
