@@ -35,14 +35,14 @@ target_link_libraries(hello_physx omniverse-physx-sdk)
 # endif()
 
 # Determine the suffix based on the build type
-set(SUFFIX "bin")
+set(GPU_LIB_DIRECTORY "tools")
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     target_compile_definitions(hello_physx PRIVATE _DEBUG)
-    set(SUFFIX "debug/bin")
+    set(GPU_LIB_DIRECTORY "tools/debug")
 endif()
 
 # Initialize GPU library name list
-set(GPULIBNAMES "")
+set(GPU_LIB_NAME "")
 
 # Check if the target triplet includes specific substrings and set the GPU library names accordingly
 string(FIND "${VCPKG_TARGET_TRIPLET}" "arm64" arm64_pos)
@@ -50,19 +50,19 @@ string(FIND "${VCPKG_TARGET_TRIPLET}" "linux" linux_pos)
 string(FIND "${VCPKG_TARGET_TRIPLET}" "windows" windows_pos)
 
 if(NOT arm64_pos EQUAL -1 OR NOT linux_pos EQUAL -1)
-    list(APPEND GPULIBNAMES "libPhysXGpu_64.so")
+    list(APPEND GPU_LIB_NAME "libPhysXGpu_64.so")
 elseif(NOT windows_pos EQUAL -1)
-    list(APPEND GPULIBNAMES "PhysXGpu_64.dll" "PhysXDevice64.dll")
+    list(APPEND GPU_LIB_NAME "PhysXGpu_64.dll" "PhysXDevice64.dll")
 else()
     message(WARNING "Unsupported target architecture (arm64/linux/windows only) in triplet")
 endif()
 
 # Add a post build command to copy the GPU libraries if they were set
-foreach(GPULIBNAME IN LISTS GPULIBNAMES)
+foreach(GPULIBNAME IN LISTS GPU_LIB_NAME)
     if(GPULIBNAME)
         add_custom_command(TARGET hello_physx POST_BUILD
                            COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                           "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/${SUFFIX}/${GPULIBNAME}"
+                           "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/${GPU_LIB_DIRECTORY}/${GPU_LIB_NAME}"
                            $<TARGET_FILE_DIR:hello_physx>)
     endif()
 endforeach()
