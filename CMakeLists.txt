@@ -5,15 +5,20 @@ cmake_minimum_required(VERSION 3.15)
 ##############################################################
 # set(VCPKG_TARGET_TRIPLET x64-windows-static)
 # set(VCPKG_LIBRARY_LINKAGE static)
-set(VCPKG_TARGET_TRIPLET x64-windows)
+set(VCPKG_TARGET_TRIPLET x64-linux)
 ##############################################################
 
 # Set the following variable to the location of your vcpkg local installation
 set(CMAKE_TOOLCHAIN_FILE "$ENV{HOME}/vcpkg/scripts/buildsystems/vcpkg.cmake")
+# set(CMAKE_PREFIX_PATH "/home/alex/vcpkg/installed/x64-linux/share/omniverse-physx-sdk")
 
 project(HelloPhysX)
 
 add_executable(hello_physx main.cpp)
+
+# Note: if the package cannot be found, check that you're using the right triplet
+find_package(omniverse-physx-sdk CONFIG REQUIRED)
+target_link_libraries(hello_physx omniverse-physx-sdk)
 
 # Optional: import the defined target to copy over the GPU acceleration libraries (3rd party provided by NVIDIA)
 if(TARGET omniverse-physx-sdk-gpu-library AND UNIX)
@@ -23,9 +28,6 @@ if(TARGET omniverse-physx-sdk-gpu-library AND UNIX)
         INSTALL_RPATH "$ORIGIN"
     )
 endif()
-
-find_package(omniverse-physx-sdk CONFIG REQUIRED)
-target_link_libraries(hello_physx omniverse-physx-sdk)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     target_compile_definitions(hello_physx PRIVATE _DEBUG)
