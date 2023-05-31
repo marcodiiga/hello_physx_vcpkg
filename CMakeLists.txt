@@ -17,11 +17,11 @@ project(HelloPhysX)
 add_executable(hello_physx main.cpp)
 
 # Note: if the package cannot be found, check that you're using the right triplet
-find_package(omniverse-physx-sdk CONFIG REQUIRED)
-target_link_libraries(hello_physx omniverse-physx-sdk)
+find_package(unofficial-omniverse-physx-sdk CONFIG REQUIRED)
+target_link_libraries(hello_physx unofficial::omniverse-physx-sdk)
 
 # Optional: import the defined target to copy over the GPU acceleration libraries (3rd party provided by NVIDIA)
-if(TARGET omniverse-physx-sdk-gpu-library AND UNIX)
+if(TARGET unofficial::omniverse-physx-sdk-gpu-library AND UNIX)
     # Add rpath setting to find so libraries on unix based systems
     set_target_properties(hello_physx PROPERTIES
         BUILD_WITH_INSTALL_RPATH TRUE
@@ -33,15 +33,15 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     target_compile_definitions(hello_physx PRIVATE _DEBUG)
 endif()
 
-if(TARGET omniverse-physx-sdk-gpu-library)
+if(TARGET unofficial::omniverse-physx-sdk-gpu-library)
     add_custom_command(TARGET hello_physx POST_BUILD
                        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                       $<TARGET_FILE:omniverse-physx-sdk-gpu-library>
+                       $<TARGET_FILE:unofficial::omniverse-physx-sdk-gpu-library>
                        $<TARGET_FILE_DIR:hello_physx>)
     if(WIN32)
         add_custom_command(TARGET hello_physx POST_BUILD
                            COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                           $<TARGET_FILE:omniverse-physx-sdk-gpu-device-library>
+                           $<TARGET_FILE:unofficial::omniverse-physx-sdk-gpu-device-library>
                            $<TARGET_FILE_DIR:hello_physx>)
     endif()
 else()
