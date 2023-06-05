@@ -40,9 +40,7 @@ int main(int argc, char** argv) {
     PX_RELEASE(scene);
     PX_RELEASE(dispatcher);
     PX_RELEASE(physics_sdk);
-    if(cudaContextManager) {
-        cudaContextManager->release();
-    }
+    PX_RELEASE(cudaContextManager);
     PX_RELEASE(foundation);
 
     std::cout << "Shutting down.." << std::endl;
