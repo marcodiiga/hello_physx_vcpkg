@@ -5,7 +5,8 @@ cmake_minimum_required(VERSION 3.15)
 ##############################################################
 # set(VCPKG_TARGET_TRIPLET x64-windows-static)
 # set(VCPKG_LIBRARY_LINKAGE static)
-set(VCPKG_TARGET_TRIPLET x64-linux)
+set(VCPKG_TARGET_TRIPLET x64-windows)
+set(VCPKG_LIBRARY_LINKAGE dynamic)
 ##############################################################
 
 # Set the following variable to the location of your vcpkg local installation
