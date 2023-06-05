@@ -3,11 +3,14 @@ cmake_minimum_required(VERSION 3.15)
 
 # PLEASE CUSTOMIZE THESE TWO BEFORE IMPORTING PHYSX PACKAGE
 ##############################################################
-# set(VCPKG_TARGET_TRIPLET x64-windows)
-# set(VCPKG_LIBRARY_LINKAGE dynamic)
+set(VCPKG_TARGET_TRIPLET x64-windows)
+set(VCPKG_CRT_LINKAGE dynamic)
 
-set(VCPKG_TARGET_TRIPLET x64-linux)
-set(VCPKG_LIBRARY_LINKAGE static)
+set(VCPKG_TARGET_TRIPLET x64-windows-static)
+set(VCPKG_CRT_LINKAGE static)
+
+# set(VCPKG_TARGET_TRIPLET x64-linux)
+# set(VCPKG_LIBRARY_LINKAGE static)
 ##############################################################
 
 # Set the following variable to the location of your vcpkg local installation
@@ -21,6 +24,17 @@ add_executable(hello_physx main.cpp)
 # Note: if the package cannot be found, check that you're using the right triplet
 find_package(unofficial-omniverse-physx-sdk CONFIG REQUIRED)
 target_link_libraries(hello_physx unofficial::omniverse-physx-sdk::sdk)
+
+# Adjust CRT linkage according to requested one
+if(WIN32 AND VCPKG_CRT_LINKAGE STREQUAL "static")
+    set_target_properties(unofficial::omniverse-physx-sdk::sdk PROPERTIES
+        INTERFACE_COMPILE_OPTIONS "/MT$<$<CONFIG:Debug>:d>"
+    )
+elseif(WIN32 AND VCPKG_CRT_LINKAGE STREQUAL "dynamic")
+    set_target_properties(unofficial::omniverse-physx-sdk::sdk PROPERTIES
+        INTERFACE_COMPILE_OPTIONS "/MD$<$<CONFIG:Debug>:d>"
+    )
+endif()
 
 # Optional: import the defined target to copy over the GPU acceleration libraries (3rd party provided by NVIDIA)
 if(TARGET unofficial::omniverse-physx-sdk-gpu-library AND UNIX)
