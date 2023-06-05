@@ -3,14 +3,13 @@ cmake_minimum_required(VERSION 3.15)
 
 # PLEASE CUSTOMIZE THESE TWO BEFORE IMPORTING PHYSX PACKAGE
 ##############################################################
-set(VCPKG_TARGET_TRIPLET x64-windows)
-set(VCPKG_CRT_LINKAGE dynamic)
+# set(VCPKG_TARGET_TRIPLET x64-windows)
+# set(VCPKG_CRT_LINKAGE dynamic)
 
-set(VCPKG_TARGET_TRIPLET x64-windows-static)
-set(VCPKG_CRT_LINKAGE static)
+# set(VCPKG_TARGET_TRIPLET x64-windows-static)
+# set(VCPKG_CRT_LINKAGE static)
 
-# set(VCPKG_TARGET_TRIPLET x64-linux)
-# set(VCPKG_LIBRARY_LINKAGE static)
+set(VCPKG_TARGET_TRIPLET x64-linux)
 ##############################################################
 
 # Set the following variable to the location of your vcpkg local installation
