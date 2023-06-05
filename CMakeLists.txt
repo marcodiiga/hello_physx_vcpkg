@@ -7,7 +7,7 @@ cmake_minimum_required(VERSION 3.15)
 # set(VCPKG_LIBRARY_LINKAGE dynamic)
 
 set(VCPKG_TARGET_TRIPLET x64-linux)
-set(VCPKG_LIBRARY_LINKAGE dynamic)
+set(VCPKG_LIBRARY_LINKAGE static)
 ##############################################################
 
 # Set the following variable to the location of your vcpkg local installation
@@ -20,7 +20,7 @@ add_executable(hello_physx main.cpp)
 
 # Note: if the package cannot be found, check that you're using the right triplet
 find_package(unofficial-omniverse-physx-sdk CONFIG REQUIRED)
-target_link_libraries(hello_physx unofficial::omniverse-physx-sdk)
+target_link_libraries(hello_physx unofficial::omniverse-physx-sdk::sdk)
 
 # Optional: import the defined target to copy over the GPU acceleration libraries (3rd party provided by NVIDIA)
 if(TARGET unofficial::omniverse-physx-sdk-gpu-library AND UNIX)
