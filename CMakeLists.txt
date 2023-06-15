@@ -24,18 +24,6 @@ add_executable(hello_physx main.cpp)
 find_package(unofficial-omniverse-physx-sdk CONFIG REQUIRED)
 target_link_libraries(hello_physx PRIVATE unofficial::omniverse-physx-sdk::sdk)
 
-# # Adjust CRT linkage according to requested one
-# if(WIN32 AND VCPKG_CRT_LINKAGE STREQUAL "static")
-#     set_target_properties(unofficial::omniverse-physx-sdk::sdk PROPERTIES
-#         INTERFACE_COMPILE_OPTIONS "/MT$<$<CONFIG:Debug>:d>"
-#     )
-# elseif(WIN32 AND VCPKG_CRT_LINKAGE STREQUAL "dynamic")
-#     set_target_properties(unofficial::omniverse-physx-sdk::sdk PROPERTIES
-#         INTERFACE_COMPILE_OPTIONS "/MD$<$<CONFIG:Debug>:d>"
-#     )
-# endif()
-
-
 # Optional: import the defined target to copy over the GPU acceleration libraries (3rd party provided by NVIDIA)
 if(TARGET unofficial::omniverse-physx-sdk::gpu-library)
     if(UNIX)
