@@ -10,6 +10,7 @@ int main(int argc, char** argv) {
     PxDefaultErrorCallback error_callback;
     auto foundation = PxCreateFoundation(PX_PHYSICS_VERSION, allocator, error_callback);
 
+// >>> COMMENT THESE LINES IF YOU'RE JUST INTERESTED IN A CPU TEST
     // Create a CUDA context manager
     PxCudaContextManagerDesc cudaContextManagerDesc;
     auto cudaContextManager = PxCreateCudaContextManager(*foundation, cudaContextManagerDesc, PxGetProfilerCallback());
@@ -20,8 +21,9 @@ int main(int argc, char** argv) {
     } else {
         std::cout << "GPU acceleration is not available" << std::endl;
     }
+// <<< COMMENT THESE LINES IF YOU'RE JUST INTERESTED IN A CPU TEST
 
-    // Create a physics SDK with GPU acceleration
+    // Create a physics SDK with GPU acceleration (if available)
     PxTolerancesScale tolerancesScale;
     PxSceneDesc sceneDesc(tolerancesScale);
     sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
