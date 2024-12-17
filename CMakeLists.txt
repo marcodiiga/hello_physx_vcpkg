@@ -1,26 +1,31 @@
 # CMakeLists.txt
 cmake_minimum_required(VERSION 3.15)
 
-# PLEASE CUSTOMIZE THESE TWO BEFORE IMPORTING PHYSX PACKAGE
-##############################################################
+# PLEASE CUSTOMIZE THESE LINES BEFORE IMPORTING PHYSX PACKAGE IF NEEDED
+#######################################################################
+
+# Example: build on windows as a dynamic shared library
 # set(VCPKG_TARGET_TRIPLET x64-windows)
 # set(VCPKG_CRT_LINKAGE dynamic)
 
+# Example: build on windows as a static library
 # set(VCPKG_TARGET_TRIPLET x64-windows-static)
 # set(VCPKG_CRT_LINKAGE static)
 
+# Example: build on linux
 set(VCPKG_TARGET_TRIPLET x64-linux)
-##############################################################
+#######################################################################
 
 # Set the following variable to the location of your vcpkg local installation
 set(CMAKE_TOOLCHAIN_FILE "$ENV{HOME}/vcpkg/scripts/buildsystems/vcpkg.cmake")
+# This shouldn't be needed
 # set(CMAKE_PREFIX_PATH "/home/alex/vcpkg/installed/x64-linux/share/omniverse-physx-sdk")
 
 project(HelloPhysX)
 
 add_executable(hello_physx main.cpp)
 
-# Note: if the package cannot be found, check that you're using the right triplet
+# Note: if the package cannot be found, check that you're using the right triplet in the variables above
 find_package(unofficial-omniverse-physx-sdk CONFIG REQUIRED)
 target_link_libraries(hello_physx PRIVATE unofficial::omniverse-physx-sdk::sdk)
 
